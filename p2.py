@@ -5,24 +5,24 @@ def calculate_Bi(i, msg_list):
     Bi = max(msg.c for msg in lower_equal_priority)
     return Bi
 
-def cal_rhs(i, msg_list, tau):
+def cal_rhs(i, msg_list, tau, Qi):
     higher_priority = [msg for msg in msg_list if msg.p < msg_list[i].p]
 
     Bi = calculate_Bi(i, msg_list)
 
-    sum_wtime = sum(math.ceil((Bi + tau) / msg.t) * msg.c for msg in higher_priority)
+    sum_wtime = sum(math.ceil((Qi + tau) / msg.t) * msg.c for msg in higher_priority)
 
     rhs = Bi + sum_wtime
 
     return rhs
 
-def cal_ri(i, msg_list, tau, qi):
-    rhs = cal_rhs(i, msg_list, tau)
+def cal_ri(i, msg_list, tau, Qi):
+    rhs = cal_rhs(i, msg_list, tau, Qi)
 
     if rhs + msg_list[i].c > msg_list[i].t:
         return -1
-    elif rhs == qi:
-        return qi + msg_list[i].c
+    elif rhs == Qi:
+        return Qi + msg_list[i].c
     else:
         return cal_ri(i, msg_list, tau, rhs)
 
