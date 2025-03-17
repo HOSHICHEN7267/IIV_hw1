@@ -1,6 +1,6 @@
 import math
 
-def calculate_Bi(i, msg_list):
+def cal_Bi(i, msg_list):
     lower_equal_priority = [msg for msg in msg_list if msg.p >= msg_list[i].p]
     Bi = max(msg.c for msg in lower_equal_priority)
     return Bi
@@ -8,7 +8,7 @@ def calculate_Bi(i, msg_list):
 def cal_rhs(i, msg_list, tau, Qi):
     higher_priority = [msg for msg in msg_list if msg.p < msg_list[i].p]
 
-    Bi = calculate_Bi(i, msg_list)
+    Bi = cal_Bi(i, msg_list)
 
     sum_wtime = sum(math.ceil((Qi + tau) / msg.t) * msg.c for msg in higher_priority)
 
@@ -46,7 +46,7 @@ if __name__ == "__main__":
                 msg_list.append(message(int(values[0]), float(values[1]), int(values[2])))
 
             for i in range(msg_len):
-                Bi = calculate_Bi(i, msg_list)
+                Bi = cal_Bi(i, msg_list)
                 ri = cal_ri(i, msg_list, tau, Bi)
                 print(ri)
                 
